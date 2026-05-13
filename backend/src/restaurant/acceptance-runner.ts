@@ -511,6 +511,21 @@ async function assertDeepSeekMarkdownGuard(): Promise<void> {
     assert.equal(blankOutput, fallbackContent, "Blank DeepSeek output must fallback to deterministic content");
 
     globalThis.fetch = (async () => new Response(JSON.stringify({
+      choices: [{ message: { content: "Hola, soy Carmen. Puedo mostrar carta o tomar un ped" } }],
+    }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    })) as typeof fetch;
+
+    const truncatedOutput = await renderer.render({
+      language: "es",
+      intent: "restaurant_context",
+      content: fallbackContent,
+      facts: { route: "greeting" },
+    });
+    assert.equal(truncatedOutput, fallbackContent, "Truncated DeepSeek output must fallback to deterministic content");
+
+    globalThis.fetch = (async () => new Response(JSON.stringify({
       choices: [{ message: { content: "Hola, que tal. Te sugiero Lomo Saltado con Inka Kola." } }],
     }), {
       status: 200,

@@ -99,6 +99,7 @@ function isSafeRenderedContent(content: string): boolean {
   if (containsPaymentCardNumber(content)) return false;
   if (content.length < 2 || content.length > 1200) return false;
   if (content.includes("**")) return false;
+  if (looksTruncated(content)) return false;
   return true;
 }
 
@@ -111,4 +112,10 @@ function stripLeadingGreeting(content: string): string {
 
 function hasOffMenuDenial(content: string): boolean {
   return /\b(no tenemos|no tengo|no aparece|no figura|no esta|not on|not currently|do not have|don't have)\b/iu.test(content);
+}
+
+function looksTruncated(content: string): boolean {
+  if (/[.!?]$/u.test(content)) return false;
+  const lastToken = content.split(/\s+/u).at(-1) ?? "";
+  return /^(ped|ord|reserv|recomend|deliver|pay|men|cart|ayud)$/iu.test(lastToken);
 }
