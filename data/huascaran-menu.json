@@ -1,0 +1,1036 @@
+{
+  "summary": {
+    "source": "NocoDB Huascaran / Platos",
+    "baseId": "pim7958yg6xdbjs",
+    "tableId": "mr9wl7z0d5ee1ye",
+    "tableName": "Platos",
+    "recordCount": 103,
+    "columns": [
+      {
+        "title": "Id",
+        "column_name": "id",
+        "uidt": "ID",
+        "dt": "int4"
+      },
+      {
+        "title": "CreatedAt",
+        "column_name": "created_at",
+        "uidt": "CreatedTime",
+        "dt": "timestamp"
+      },
+      {
+        "title": "UpdatedAt",
+        "column_name": "updated_at",
+        "uidt": "LastModifiedTime",
+        "dt": "timestamp"
+      },
+      {
+        "title": "nc_created_by",
+        "column_name": "created_by",
+        "uidt": "CreatedBy",
+        "dt": "varchar"
+      },
+      {
+        "title": "nc_updated_by",
+        "column_name": "updated_by",
+        "uidt": "LastModifiedBy",
+        "dt": "varchar"
+      },
+      {
+        "title": "nc_order",
+        "column_name": "nc_order",
+        "uidt": "Order",
+        "dt": "numeric"
+      },
+      {
+        "title": "IDP",
+        "column_name": "IDP",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Plato",
+        "column_name": "Plato",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Descripción",
+        "column_name": "Descripci_n",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Ingredientes",
+        "column_name": "Ingredientes",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Precio",
+        "column_name": "Precio",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Estado",
+        "column_name": "Estado",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Vegano",
+        "column_name": "Vegano",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      },
+      {
+        "title": "Picante",
+        "column_name": "Picante",
+        "uidt": "SingleLineText",
+        "dt": "text"
+      }
+    ],
+    "statusCounts": {
+      "Disponible": 99,
+      "Agotado": 4
+    },
+    "veganCounts": {
+      "NO": 103
+    },
+    "spicyCounts": {
+      "No": 99,
+      "SI": 3,
+      "Si": 1
+    }
+  },
+  "items": [
+    {
+      "idp": "p001",
+      "name": "Pupusas",
+      "description": "Tortillas de maíz rellenas de queso, frijoles o carne, servidas con salsa criolla.",
+      "price": "3.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p002",
+      "name": "Leche de Tigre",
+      "description": "Mariscos marinados en jugo de limón con apio, cebolla y cilantro, servidos con camote y choclo.",
+      "price": "15.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "SI"
+    },
+    {
+      "idp": "p003",
+      "name": "Choros a la Chalaca",
+      "description": "Mollejas de mariscos frescos marinados en limón, cebolla morada, cilantro y maíz, servidos fríos.",
+      "price": "19.95",
+      "status": "Agotado",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p004",
+      "name": "Ceviche Mixto Especial",
+      "description": "Ceviche premium con camarones, vieiras, pescado y calamares marinados en limón, acompañado de camote y choclo.",
+      "price": "23.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "SI"
+    },
+    {
+      "idp": "p005",
+      "name": "Ceviche de Pescado",
+      "description": "Ceviche clásico peruano con pescado blanco fresco marinado en limón, cebolla y ají, servido con camote y choclo.",
+      "price": "19.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "SI"
+    },
+    {
+      "idp": "p006",
+      "name": "Tiradito",
+      "description": "Pescado finamente cortado en láminas, marinado en jugo de limón y ají amarillo, con cilantro y aceite de oliva.",
+      "price": "19.95",
+      "status": "Agotado",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p007",
+      "name": "Coctel de Camarón",
+      "description": "Camarones cocidos en una salsa refrescante de tomate, limón, cebolla y mayonesa, servido en vaso.",
+      "price": "12.95",
+      "status": "Agotado",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p008",
+      "name": "Camarones al Ajillo",
+      "description": "Camarones sautéed en aceite de oliva, ajo y perejil, con un toque de ají, servidos con pan o arroz.",
+      "price": "14.95",
+      "status": "Agotado",
+      "vegan": "NO",
+      "spicy": "Si"
+    },
+    {
+      "idp": "p009",
+      "name": "Papa Rellena",
+      "description": "Papas hervidas machacadas rellenas de carne picada, huevos duros y aceitunas, fritas hasta quedar crujientes.",
+      "price": "10.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p010",
+      "name": "Papa a la Huancaina",
+      "description": "Papas hervidas bañadas en una salsa cremosa de ají amarillo, queso fresco y leche, con huevo duro y aceitunas.",
+      "price": "10.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p011",
+      "name": "Tamales con Salsa Criolla",
+      "description": "Tamales de masa de maíz vaporizados, servidos con salsa criolla de tomate, cebolla y cilantro.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p012",
+      "name": "Quesadilla",
+      "description": "Tortilla de harina rellena de pollo a la parrilla (o carne por 2 extra), queso derretido, cebolla y pimientos.",
+      "price": "11.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p013",
+      "name": "Chicken Salad",
+      "description": "Pechuga de pollo a la parrilla sobre ensalada fresca de lechuga, tomate y zanahoria, con aderezo casero.",
+      "price": "13.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p014",
+      "name": "House Salad",
+      "description": "Ensalada básica de lechuga, tomate, cebolla y zanahoria, con aderezo de la casa.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p015",
+      "name": "Chupe de Cangrejo / Crab Soup",
+      "description": "Sopa cremosa de cangrejo con papas, maíz, leche y especias peruanas, servida caliente.",
+      "price": "15.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p016",
+      "name": "Chupe de Camarones / Shrimp Soup",
+      "description": "Sopa rica y cremosa con camarones, papas, maíz, leche y ají, típica de la costa peruana.",
+      "price": "15.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p017",
+      "name": "Sopa de Mondongo / Tripe Soup",
+      "description": "Sopa tradicional con tripa de res, papas, ají y hierbas, cocida lentamente hasta quedar tierna.",
+      "price": "16.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p018",
+      "name": "Caldo de Gallina / Chicken Soup",
+      "description": "Sopa de pollo casera con verduras, arroz y hierbas, ideal para días fríos.",
+      "price": "13.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p019",
+      "name": "Sopa de Res / Beef Soup",
+      "description": "Sopa nutritiva de carne de res, papas, zanahorias y apio, con un caldo sabroso y aromático.",
+      "price": "15.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p020",
+      "name": "Sopa del Día / Soup of the Day",
+      "description": "Sopa del día según ingredientes frescos, variante diaria de la cocina peruana.",
+      "price": "7.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p021",
+      "name": "Sopa de Mariscos / Seafood Soup",
+      "description": "Sopa abundante con pescado, camarones, calamares y mejillones en un caldo de pescado y ají amarillo.",
+      "price": "19.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p022",
+      "name": "Steak Sandwich",
+      "description": "Bistec de New York a la parrilla, servido en pan francés con papas fritas y cebolla caramelizada.",
+      "price": "13.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p023",
+      "name": "Grilled Chicken Sandwich",
+      "description": "Pechuga de pollo a la parrilla en pan integral con lechuga, tomate y mayonesa, acompañado de papas fritas.",
+      "price": "11.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p024",
+      "name": "Hamburger (cooked to order)",
+      "description": "Hamburguesa de carne de res jugosa, con queso, lechuga, tomate y cebolla, servida con papas fritas.",
+      "price": "10.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p025",
+      "name": "Cheeseburger (cooked to order)",
+      "description": "Hamburguesa con queso derretido, carne de res, lechuga, tomate y cebolla, servida con papas fritas.",
+      "price": "11.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p026",
+      "name": "Pollo Saltado",
+      "description": "Pechuga de pollo salteada con cebolla, tomate, papas fritas y ají, servida con arroz blanco.",
+      "price": "17.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p027",
+      "name": "Tallarín Saltado de Pollo",
+      "description": "Pollo salteado con tallarines, cebolla, tomate, ají y salsa de soya, estilo chifa peruano.",
+      "price": "17.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p028",
+      "name": "New York Steak (cooked to order)",
+      "description": "Bistec de 10 oz. de filete de New York, asado a la perfección, con papas y vegetales al gusto.",
+      "price": "23.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p029",
+      "name": "Churrasco a la Parrilla",
+      "description": "Bistec de T-bone de 10 oz., asado a la parrilla, servido con papas fritas o arroz.",
+      "price": "24.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p030",
+      "name": "Seco de Carne",
+      "description": "Carne de res estofada con cilantro, cebolla y ají, servida con arroz, papas y frijoles.",
+      "price": "19.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p031",
+      "name": "Lomo Saltado a la Criolla",
+      "description": "Lomo de res salteado con cebolla, tomate, papas fritas y ají, servido con arroz blanco y fideos.",
+      "price": "22.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p032",
+      "name": "Tallarín Saltado de Carne",
+      "description": "Lomo de res salteado con tallarines, cebolla, tomate, ají y salsa de soya, estilo chifa.",
+      "price": "22.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p033",
+      "name": "Cau Cau a la Criolla",
+      "description": "Tripa de res estofada con papa, ají y especias, servida con arroz blanco.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p034",
+      "name": "Mondonguito Italiano",
+      "description": "Tripa de res estofada con salsa de tomate, pimiento y cebolla, servida con arroz y papas fritas.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p035",
+      "name": "Special Breakfast",
+      "description": "Desayuno completo: chicharrón, tamal, camote, relleno y pan con salsa criolla.",
+      "price": "20.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p036",
+      "name": "Huevo, Frijoles, Plátano, 2 Tortillas",
+      "description": "Desayuno centroamericano: huevos revueltos, frijoles, plátano maduro y dos tortillas de maíz.",
+      "price": "10.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p037",
+      "name": "Huevo, Frijoles, Plátano, Queso",
+      "description": "Desayuno centroamericano: huevos, frijoles, plátano maduro y queso fresco derretido.",
+      "price": "12.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p038",
+      "name": "Desayuno Típico",
+      "description": "Desayuno peruano clásico: huevos, charqui, papas, plátano y pan con mantequilla.",
+      "price": "20.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p039",
+      "name": "Tamal de Chancho",
+      "description": "Tamal de maíz relleno de cerdo, envuelto en hoja de plátano y cocido al vapor.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p040",
+      "name": "Bread and Avocado / Pan con Palta",
+      "description": "Pan tostado con aguacate maduro, sal y limón, simple y delicioso.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p041",
+      "name": "Bread and Egg / Pan con Huevo",
+      "description": "Pan tostado con huevo frito o revuelto, acompañado de tomate y cebolla.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p042",
+      "name": "Bread and Cheese / Pan con Queso",
+      "description": "Pan tostado con queso fresco derretido, sencillo y reconfortante.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p043",
+      "name": "Bread and Olives / Pan con Aceituna",
+      "description": "Pan con aceitunas negras, aceite de oliva y orégano, inspirado en la cocina mediterránea.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p044",
+      "name": "Bread and fried Sweet Potato / Pan con Camote Frito",
+      "description": "Pan con camote frito, dulce y crujiente, ideal para desayunar.",
+      "price": "6.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p045",
+      "name": "Bread and Blood Sausage / Pan con Relleno",
+      "description": "Pan con relleno (morcilla peruana), sazonado con especias y servido caliente.",
+      "price": "9.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p046",
+      "name": "Bread and fried Pork / Pan con Chicharrón",
+      "description": "Pan con chicharrón crujiente, jugoso y bien sazonado, acompañado de cebolla.",
+      "price": "11.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p047",
+      "name": "Pancakes / Panqueques",
+      "description": "Panqueques suaves con sirope de caña o miel, servidos con mantequilla.",
+      "price": "8.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p048",
+      "name": "Pancakes w/Sausage or Bacon / con Salchicha o Tocino",
+      "description": "Panqueques con salchicha o tocino crujiente, perfecto para un desayuno contundente.",
+      "price": "10.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p049",
+      "name": "Tilapia Frita o a la Parrilla",
+      "description": "Trucha frita o a la parrilla con limón y mantequilla de ajo, servida con arroz o papas.",
+      "price": "16.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p050",
+      "name": "Camarones Fritos o a la Parrilla",
+      "description": "Camarones grandes fritos o a la parrilla, con limón y salsa criolla.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p051",
+      "name": "Camarones y Vieiras Salteados",
+      "description": "Camarones y vieiras salteadas en mantequilla, vino blanco, limón y ajo, sobre pasta.",
+      "price": "22.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p052",
+      "name": "Trucha Frita",
+      "description": "Trucha entera frita hasta quedar crujiente, servida con arroz, papas y cebolla.",
+      "price": "20.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p053",
+      "name": "Jalea Mixta",
+      "description": "Mezcla de pescado, camarones, calamares y yuca frita, servida con salsa criolla.",
+      "price": "24.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p054",
+      "name": "Jalea de Pescado",
+      "description": "Pescado frito con yuca, servido con salsa criolla y limón.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p055",
+      "name": "Pescado a lo Macho",
+      "description": "Pescado cubierto con una capa generosa de mariscos (camarones, calamares, mejillones) y salsa de tomate.",
+      "price": "24.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p056",
+      "name": "Arroz con Pato",
+      "description": "Arsol de pato estofado con cerveza, ají y especias, servido con arroz blanco y papas.",
+      "price": "20.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p057",
+      "name": "Arroz con Pollo",
+      "description": "Arsol de pollo con arroz, ají, azafrán, verduras y huevos duros, clásico peruano.",
+      "price": "16.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p058",
+      "name": "Arroz Chaufa de Mariscos",
+      "description": "Arsol chino-peruano con arroz, camarones, calamares, pescado, huevo y verduras.",
+      "price": "24.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p059",
+      "name": "Parrillada Mixta",
+      "description": "Asado completo: pollo, carne, chorizo, papa, yuca y maíz, servido para compartir.",
+      "price": "28.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p060",
+      "name": "Chanfainita con Mote o Arroz",
+      "description": "Tripa de res estofada con mote (maíz pelado) o arroz, sazonada con ají y especias.",
+      "price": "17.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p061",
+      "name": "Picante de Mariscos",
+      "description": "Caldo picante con pescado, camarones y calamares en salsa de ají, servido con arroz.",
+      "price": "24.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p062",
+      "name": "Ají de Gallina",
+      "description": "Pollo desmenuzado en una salsa cremosa de ají amarillo, queso, leche y pan, servido con arroz y huevo.",
+      "price": "16.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p063",
+      "name": "Carapulcra de Chancho",
+      "description": "Sopa seca de cerdo, papas secas, ají y especias, cocida lentamente hasta obtener textura cremosa.",
+      "price": "16.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p064",
+      "name": "Carne a la Parrilla",
+      "description": "Carne de res asada a la parrilla, jugosa y bien sazonada, con papas y vegetales.",
+      "price": "19.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p065",
+      "name": "Carne Asada",
+      "description": "Carne de res cortada en trozos grandes, asada a la llama, servida con arroz y ensalada.",
+      "price": "21.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p066",
+      "name": "Cabrito a la Norteña",
+      "description": "Cabrito estofado con ají, comino y especias del norte, servido con arroz y papas.",
+      "price": "19.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p067",
+      "name": "Calamares Fritos",
+      "description": "Calamares rebozados y fritos hasta quedar crujientes, servidos con limón y salsa criolla.",
+      "price": "15.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p068",
+      "name": "Tallarín Verde de Pollo",
+      "description": "Tallarines verdes con salsa de espinaca y ají verde, acompañados de pechuga de pollo.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p069",
+      "name": "Tallarín Verde con Carne",
+      "description": "Tallarines verdes con salsa de espinaca y ají verde, acompañados de carne estofada.",
+      "price": "21.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p070",
+      "name": "Huachinango (Red Snapper)",
+      "description": "Pescado rojo fresco asado o frito, con limón y hierbas, servido con arroz y vegetales.",
+      "price": "22.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p071",
+      "name": "Parihuela de Mariscos",
+      "description": "Sopa de pescado con mariscos, tomate, ají y vino blanco, muy parecida a la paella.",
+      "price": "19.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p072",
+      "name": "Saltado de Mariscos",
+      "description": "Camarones, calamares y pescado salteados con cebolla, tomate, ají y salsa de soya, servidos con arroz.",
+      "price": "24.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p073",
+      "name": "Picante de Conejo",
+      "description": "Conejo estofado en salsa picante de ají, cebolla y especias, servido con arroz y papas.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p074",
+      "name": "Escabeche de Pescado",
+      "description": "Pescado frito marinado en vinagre, cebolla, ají y especias, servido frío como entrante.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p075",
+      "name": "Sudado de Pescado",
+      "description": "Pescado cocido al vapor con cebolla, tomate, ají y cilantro, en un caldo suave y aromático.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p076",
+      "name": "Anticuchos",
+      "description": "Corasazos de corazón de res marinados en ají y vinagre, asados a la parrilla.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p077",
+      "name": "Olluquito con Carne",
+      "description": "Olluco (tubérculo andino) cocido con carne de res, ají y especias, plato típico de la sierra.",
+      "price": "20.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p078",
+      "name": "Milanesa de Pollo",
+      "description": "Pechuga de pollo empanizada y frita, servida con papas fritas y ensalada.",
+      "price": "17.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p079",
+      "name": "Tacu Tacu con Carne a la Parrilla",
+      "description": "Frijoles y arroz fritos en forma de torta, acompañados de bistec a la parrilla.",
+      "price": "22.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p080",
+      "name": "Patita con Maní",
+      "description": "Pata de cerdo estofada con maní tostado, ají y especias, plato tradicional de la costa.",
+      "price": "18.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p081",
+      "name": "Bistec a lo Pobre",
+      "description": "Bistec de res con arroz, huevos fritos, papas fritas y plátano maduro, clásico de la cocina popular.",
+      "price": "27.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p082",
+      "name": "Picarones (Friday Saturday & Sunday)",
+      "description": "Donitas peruanas de harina de zapallo y quinua, fritas y bañadas en jarabe de melaza.",
+      "price": "7.50",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p083",
+      "name": "Arroz con Leche / Rice Pudding",
+      "description": "Arroz dulce cocido en leche, canela y azúcar, servido frío o tibio.",
+      "price": "6.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p084",
+      "name": "Flan / Caramelized Custard",
+      "description": "Crema pastelera con caramelo, suave y sedosa, típica postre latinoamericano.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p085",
+      "name": "Combinado",
+      "description": "Combos de postres: flan + arroz con leche, o cualquier combinación de dos dulces.",
+      "price": "7.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p086",
+      "name": "Domestic Beer (Budweiser, Miller Lite, Michelob)",
+      "description": "Cervezas nacionales: Budweiser, Miller Lite, Michelob.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p087",
+      "name": "Imported Beer (Heineken, Corona, Modelo, Cristal)",
+      "description": "Cervezas importadas: Heineken, Corona, Modelo, Cristal.",
+      "price": "6.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p088",
+      "name": "Glass Wine (House)",
+      "description": "Vino tinto o blanco de la casa, por copa.",
+      "price": "8.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p089",
+      "name": "Half Carafe Wine (House)",
+      "description": "Vino de la casa, medio jarrón (375 ml).",
+      "price": "15.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p090",
+      "name": "Carafe Wine (House)",
+      "description": "Vino de la casa, jarrón completo (750 ml).",
+      "price": "22.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p091",
+      "name": "Wine by the Bottle / Vino por Botella",
+      "description": "Vino de calidad por botella (750 ml).",
+      "price": "25.95",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p092",
+      "name": "Coffee, Decaf, Tea",
+      "description": "Café, café descafeinado o té negro, servidos calientes.",
+      "price": "3.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p093",
+      "name": "Milk",
+      "description": "Leche entera o descremada, servida en vaso.",
+      "price": "4.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p094",
+      "name": "Juice",
+      "description": "Jugo natural de naranja, manzana o maracuyá, preparado al momento.",
+      "price": "4.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p095",
+      "name": "Chicha Morada / Purple Corn drink",
+      "description": "Bebida ancestral de maíz morado, canela, clavo y limón, dulce y refrescante.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p096",
+      "name": "Horchata / Blended Rice drink",
+      "description": "Bevanda de arroz, canela, leche y azúcar, servida helada.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p097",
+      "name": "Sodas: Inka Cola, Coca Cola, assorted",
+      "description": "Sodas populares: Inca Kola, Coca-Cola, Pepsi, Sprite, etc.",
+      "price": "3.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p098",
+      "name": "Jugo de Fresas / Strawberry Juice",
+      "description": "Jugo natural de fresas frescas, sin conservadores.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p099",
+      "name": "Jugo de Fresas con Leche / Strawberry Juice w/Milk",
+      "description": "Jugo de fresas mezclado con leche, espeso y cremoso.",
+      "price": "6.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p100",
+      "name": "Jugo de Papaya / Papaya Juice",
+      "description": "Jugo natural de papaya madura, dulce y tropical.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p101",
+      "name": "Jugo Surtido / Mixed Juice",
+      "description": "Mezcla de frutas tropicales: piña, papaya, mango y naranja.",
+      "price": "6.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p102",
+      "name": "Jugo de Piña / Pineapple Juice",
+      "description": "Jugo natural de piña fresca, refrescante y ácido-dulce.",
+      "price": "5.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    },
+    {
+      "idp": "p103",
+      "name": "Jugo Especial / Mixed Juices w/Milk and Egg",
+      "description": "Jugo mixto con leche y huevo batido, energético y nutritivo.",
+      "price": "7.00",
+      "status": "Disponible",
+      "vegan": "NO",
+      "spicy": "No"
+    }
+  ]
+}
