@@ -107,7 +107,7 @@ export class MenuVectorStore {
   }
 
   private async upsertMenu(): Promise<void> {
-    const points = this.catalog.available().map((item, index) => ({
+    const points = this.catalog.all().map((item, index) => ({
       id: index + 1,
       vector: vectorize(menuSearchText(item)),
       payload: {
@@ -137,12 +137,12 @@ export class MenuVectorStore {
         }),
       },
     );
-    const byId = new Map(this.catalog.available().map((item) => [item.id, item]));
+    const byId = new Map(this.catalog.all().map((item) => [item.id, item]));
     return (response.result ?? [])
       .map((point): MenuSearchResult | null => {
         const menuItemId = typeof point.payload?.menuItemId === "string" ? point.payload.menuItemId : "";
         const item = byId.get(menuItemId);
-        if (!item) return null;
+        if (!item || item.status !== "available") return null;
         return { item, score: point.score ?? 0, source: "qdrant" };
       })
       .filter((result): result is MenuSearchResult => result !== null);
