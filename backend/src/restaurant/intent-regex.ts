@@ -23,6 +23,7 @@ export function classifyRestaurantIntent(message: string): RestaurantIntent {
   if (includesAny(normalized, ["tell me about", "about lomo", "que es el lomo", "que es lomo saltado", "what is lomo", "ordenar ese item", "order that item"])) {
     return "restaurant_context";
   }
+  if (isMenuAvailabilityQuestion(normalized)) return "restaurant_context";
   if (includesAny(normalized, ["reservar", "reserva", "book a table", "table", "mesa", "guests", "personas"])) {
     return "reservation";
   }
@@ -36,6 +37,11 @@ export function classifyRestaurantIntent(message: string): RestaurantIntent {
     return "restaurant_context";
   }
   return "handoff";
+}
+
+function isMenuAvailabilityQuestion(normalized: string): boolean {
+  if (includesAny(normalized, ["pasta", "carbonara", "carbonada", "spaghetti", "fettuccine"])) return true;
+  return /(?:^|\s)(tienes|tienen|hay|venden|sirven|do you have|do you serve)\s+/u.test(normalized);
 }
 
 function isGreetingOnly(normalizedMessage: string): boolean {

@@ -46,7 +46,7 @@ export class DeepSeekRestaurantRenderer implements RestaurantRenderer {
             {
               role: "system",
               content:
-                "You are Carmen, the Huascaran restaurant AI agent from the original Nexpert n8n workflow. Reason over the provided structured restaurant decision and rewrite it naturally in the requested language. Behave like a web chat widget for Huascaran Peruvian Cuisine: bilingual ES/EN, warm, efficient, one clear next question, order/reservation aware. Treat the structured JSON as the already-grounded result of the old carmen_speech Qdrant template plus NocoDB menu check. Do not add menu items, prices, policies, phone numbers, payment states, or facts that are not present in the JSON. Keep the answer concise and WhatsApp-friendly. Do not use Markdown, bold text, code blocks, headings, or asterisks.",
+                "You are Carmen, the Huascaran restaurant AI agent from the original Nexpert n8n workflow. Reason over the provided structured restaurant decision and rewrite it naturally in the requested language. Behave like a web chat widget for Huascaran Peruvian Cuisine: bilingual ES/EN, warm, efficient, one clear next question, order/reservation aware. Treat the structured JSON as the already-grounded result of the old carmen_speech Qdrant template plus NocoDB menu check. Do not add menu items, prices, policies, phone numbers, payment states, or facts that are not present in the JSON. Do not start with Hola, Hi, Hello, or another greeting unless facts.route is exactly greeting. Keep the answer concise and WhatsApp-friendly. Do not use Markdown, bold text, code blocks, headings, or asterisks.",
             },
             {
               role: "user",
@@ -59,7 +59,7 @@ export class DeepSeekRestaurantRenderer implements RestaurantRenderer {
       if (!response.ok) return this.fallback.render(decision);
 
       const parsed = (await response.json()) as DeepSeekResponse;
-      const content = sanitizeRenderedContent(parsed.choices?.[0]?.message?.content ?? "");
+      const content = sanitizeRenderedContent(parsed.choices?.[0]?.message?.content ?? "", decision);
       return content && isSafeRenderedContent(content) ? content : this.fallback.render(decision);
     } catch {
       return this.fallback.render(decision);
@@ -79,8 +79,8 @@ export function createRestaurantRendererFromEnv(): RestaurantRenderer {
   });
 }
 
-export function sanitizeRenderedContent(content: string): string {
-  return content
+export function sanitizeRenderedContent(content: string, decision?: RestaurantDecision): string {
+  const sanitized = content
     .replace(/\r\n/g, "\n")
     .replace(/\*\*([^*]+)\*\*/gu, "$1")
     .replace(/\*\*/gu, "")
@@ -90,6 +90,9 @@ export function sanitizeRenderedContent(content: string): string {
     .replace(/[ \t]+\n/gu, "\n")
     .replace(/\n{3,}/gu, "\n\n")
     .trim();
+  if (decision?.facts.route === "off_menu" && !hasOffMenuDenial(sanitized)) return decision.content;
+  if (decision && decision.facts.route !== "greeting") return stripLeadingGreeting(sanitized);
+  return sanitized;
 }
 
 function isSafeRenderedContent(content: string): boolean {
@@ -97,4 +100,15 @@ function isSafeRenderedContent(content: string): boolean {
   if (content.length < 2 || content.length > 1200) return false;
   if (content.includes("**")) return false;
   return true;
+}
+
+function stripLeadingGreeting(content: string): string {
+  return content
+    .replace(/^(?:¡\s*)?hola(?:[,!.\s]+(?:que tal|qué tal))?[,!.\s]*/iu, "")
+    .replace(/^(?:hi|hello)(?:[,!.\s]+(?:there))?[,!.\s]*/iu, "")
+    .trim();
+}
+
+function hasOffMenuDenial(content: string): boolean {
+  return /\b(no tenemos|no tengo|no aparece|no figura|no esta|not on|not currently|do not have|don't have)\b/iu.test(content);
 }

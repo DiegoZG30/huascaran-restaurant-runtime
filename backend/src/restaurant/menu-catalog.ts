@@ -40,6 +40,9 @@ const EXTRA_ALIASES: Record<string, string[]> = {
   "Churrasco a la Parrilla": ["churrasco"],
   "Seco de Carne": ["seco"],
   "Tallarín Saltado de Carne": ["tallarin saltado de carne", "tallarin saltado"],
+  "Tallarín Saltado de Pollo": ["tallarin saltado de pollo"],
+  "Tallarín Verde con Carne": ["tallarin verde con carne", "tallarin verde"],
+  "Tallarín Verde de Pollo": ["tallarin verde de pollo"],
   "Ceviche Mixto Especial": ["ceviche mixto", "pescados", "mariscos", "seafood"],
   "Ceviche de Pescado": ["ceviche", "sebiche"],
   "Lomo Saltado a la Criolla": ["lomo", "lomo saltado", "beef", "carnes", "carne"],
@@ -66,6 +69,10 @@ export class MenuCatalog {
   findByName(name: string): MenuItem | undefined {
     const normalized = normalizeText(name);
     return this.items.find((item) => normalizeText(item.name) === normalized);
+  }
+
+  findById(id: string): MenuItem | undefined {
+    return this.items.find((item) => item.id === id);
   }
 
   findByAlias(query: string): MenuItem | undefined {

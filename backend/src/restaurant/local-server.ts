@@ -72,6 +72,7 @@ export function buildRestaurantServer(): ReturnType<typeof Fastify> {
     status: "healthy",
     service: "huascaran-restaurant-agent",
     deepseek: process.env.HUASCARAN_USE_DEEPSEEK === "1" && Boolean(process.env.DEEPSEEK_API_KEY),
+    qdrant: await agent.getKnowledgeStatus(),
   }));
 
   app.get("/api/restaurant/menu", async () => ({

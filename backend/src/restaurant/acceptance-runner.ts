@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { createRestaurantRendererFromEnv, DeepSeekRestaurantRenderer } from "./deepseek-renderer.js";
+import { MenuCatalog } from "./menu-catalog.js";
+import { MenuVectorStore } from "./menu-vector-store.js";
 import { createHuascaranAgentForTests } from "./restaurant-agent.js";
 import type { RestaurantLanguage } from "./types.js";
 import { normalizeText } from "./text.js";
@@ -16,7 +18,7 @@ const cases: AcceptanceCase[] = [
   c("ES-C1.2", "es", "Preferencia: Pescados o Mariscos. Restriccion: No lacteos.", ["Ceviche Mixto Especial", "Chicha Morada", "Cristal"]),
   c("ES-C1.3", "es", "Preferencia: Vegetariano. Restriccion: Sin lacteos y huevo.", ["House Salad", "Papa a la Huancaina", "Jugo Especial"]),
   c("ES-C1.4", "es", "No me gusta el Lomo Saltado. Elegir alternativa: Seco de Carne.", ["Seco de Carne", "Churrasco", "Tallarin Saltado"]),
-  c("ES-C1.5", "es", "Quiero pasta Italiana.", ["No le entendi bien", "carnes", "pescados", "vegetarianos", "veganos"]),
+  c("ES-C1.5", "es", "Quiero pasta Italiana.", ["No tenemos", "carta actual", "Tallarin Saltado"]),
   c("ES-C1.6", "es", "Quiero algo dulce.", ["No le entendi bien", "carnes", "pescados", "vegetarianos", "veganos"]),
   c("ES-C1.7", "es", "Preferencia: Vegano. Restriccion: Evito lacteos, huevo y gluten.", ["opciones veganas", "House Salad", "Jugo de Pina", "Chicha Morada"]),
   c("ES-C1.8", "es", "Preferencia: Veganos. Restriccion: Mariscos, gluten, lacteos.", ["opciones veganas", "House Salad", "Chicha Morada"]),
@@ -59,7 +61,7 @@ const cases: AcceptanceCase[] = [
   c("EN-C1.2", "en", "Preference: Pescados or Mariscos. Restriction: No lacteos.", ["Ceviche Mixto Especial", "Chicha Morada", "Cristal"]),
   c("EN-C1.3", "en", "Preference: Vegetarian. Restriction: Dairy and egg allergy.", ["House Salad", "Papa a la Huancaina", "Jugo Especial"]),
   c("EN-C1.4", "en", "No, I want something else. I choose Tallarin Saltado de Carne.", ["Seco de Carne", "Churrasco", "Tallarin Saltado"]),
-  c("EN-C1.5", "en", "I want Italian pasta.", ["didn't quite understand", "carnes", "pescados", "vegetarianos", "veganos"]),
+  c("EN-C1.5", "en", "I want Italian pasta.", ["do not have", "current menu", "Tallarin Saltado"]),
   c("EN-C1.6", "en", "Preference: Vegan. No soy, no cheese, no chicken. No lacteos, eggs, and gluten.", ["limited", "House Salad", "Jugo de Pina", "Chicha Morada"]),
   c("EN-C1.7", "en", "Preference: Pescados. Restriction: Severe nut allergy.", ["For allergies", "confirm with the staff", "public menu"]),
   c("EN-C1.8", "en", "Preference: Vegetariano. Allergy to dairy and egg.", ["House Salad", "Papa a la Huancaina", "Jugo Especial"]),
@@ -231,6 +233,28 @@ assert.equal(englishGreetingWithStaleSpanishUi.language, "en", "English greeting
 assert.equal(englishGreetingWithStaleSpanishUi.intent, "restaurant_context", "English greeting with stale Spanish UI hint must not route to handoff");
 assert.match(englishGreetingWithStaleSpanishUi.message, /Hi|Carmen|Huascarán/u, "English greeting with stale Spanish UI hint must answer in English");
 assert.doesNotMatch(englishGreetingWithStaleSpanishUi.message, /no entendimos|conectarte directamente|conectarlo con el personal/u, "English greeting with stale Spanish UI hint must not emit Spanish fallback handoff copy");
+const noRepeatedGreetingSession = "NO-REPEATED-GREETING";
+await agent.respond({
+  sessionId: noRepeatedGreetingSession,
+  language: "es",
+  message: "hola",
+});
+const secondTurnRecommendation = await agent.respond({
+  sessionId: noRepeatedGreetingSession,
+  language: "es",
+  message: "Quiero una recomendación de carnes sin restricciones.",
+});
+assert.equal(secondTurnRecommendation.intent, "menu_recommendation", "Second-turn beef request must stay in recommendation route");
+assert.doesNotMatch(secondTurnRecommendation.message, /^¡?hola\b/iu, "Second-turn recommendation must not repeat greeting");
+const offMenuCarbonadaReply = await agent.respond({
+  sessionId: "OFF-MENU-CARBONADA",
+  language: "es",
+  message: "tienes pasta a la carbonada?",
+});
+assert.equal(offMenuCarbonadaReply.intent, "restaurant_context", "Off-menu dish question must not route to handoff");
+assert.match(offMenuCarbonadaReply.message, /no tenemos|no tengo|carta actual/u, "Off-menu dish answer must clearly say the requested dish is not in the current menu");
+assert.match(offMenuCarbonadaReply.message, /Tallar[ií]n Saltado/u, "Off-menu pasta answer must offer real menu alternatives");
+assert.doesNotMatch(offMenuCarbonadaReply.message, /no entendimos|conectarlo con el personal|support|handoff/u, "Off-menu dish answer must not emit generic support fallback");
 const markdownInjectionReply = await agent.respond({
   sessionId: "SECURITY-MARKDOWN-INJECTION",
   language: "es",
@@ -369,6 +393,7 @@ assert.ok(operations.summary.totalOrders >= 1, "Expected live widget order telem
 assert.ok(operations.summary.confirmedOrders >= 1, "Expected confirmed-order telemetry");
 
 await assertDeepSeekMarkdownGuard();
+await assertMenuVectorFallback();
 
 if (failures.length > 0) {
   console.error(failures.join("\n"));
@@ -486,6 +511,36 @@ async function assertDeepSeekMarkdownGuard(): Promise<void> {
     assert.equal(blankOutput, fallbackContent, "Blank DeepSeek output must fallback to deterministic content");
 
     globalThis.fetch = (async () => new Response(JSON.stringify({
+      choices: [{ message: { content: "Hola, que tal. Te sugiero Lomo Saltado con Inka Kola." } }],
+    }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    })) as typeof fetch;
+
+    const repeatedGreetingOutput = await renderer.render({
+      language: "es",
+      intent: "menu_recommendation",
+      content: "Le sugiero Lomo Saltado con Inka Kola.",
+      facts: { route: "beef" },
+    });
+    assert.doesNotMatch(repeatedGreetingOutput, /^¡?hola\b/iu, "DeepSeek renderer must strip greetings outside the greeting route");
+
+    globalThis.fetch = (async () => new Response(JSON.stringify({
+      choices: [{ message: { content: "Sí tenemos pasta carbonara." } }],
+    }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    })) as typeof fetch;
+
+    const unsafeOffMenuOutput = await renderer.render({
+      language: "es",
+      intent: "restaurant_context",
+      content: "No tenemos pasta carbonara en la carta actual.",
+      facts: { route: "off_menu" },
+    });
+    assert.equal(unsafeOffMenuOutput, "No tenemos pasta carbonara en la carta actual.", "Off-menu DeepSeek output without denial must fallback to grounded content");
+
+    globalThis.fetch = (async () => new Response(JSON.stringify({
       choices: [{ message: { content: "**Factory path** lista." } }],
     }), {
       status: 200,
@@ -507,6 +562,15 @@ async function assertDeepSeekMarkdownGuard(): Promise<void> {
     restoreOptionalEnv("HUASCARAN_USE_DEEPSEEK", originalUseDeepSeek);
     restoreOptionalEnv("DEEPSEEK_API_KEY", originalDeepSeekApiKey);
   }
+}
+
+async function assertMenuVectorFallback(): Promise<void> {
+  const catalog = new MenuCatalog();
+  const store = new MenuVectorStore(catalog, { qdrantUrl: "", collection: "test" });
+  const status = await store.ensureReady();
+  assert.equal(status.configured, false, "Local vector fallback must report Qdrant as unconfigured in tests");
+  const results = await store.search("tienes pasta a la carbonada?", 3);
+  assert.ok(results.some(({ item }) => /Tallar[ií]n Saltado/u.test(item.name)), "Vector fallback must retrieve real pasta-adjacent menu alternatives");
 }
 
 function restoreOptionalEnv(name: "HUASCARAN_USE_DEEPSEEK" | "DEEPSEEK_API_KEY", value: string | undefined): void {

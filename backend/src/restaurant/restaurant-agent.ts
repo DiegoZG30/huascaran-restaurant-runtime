@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { classifyRestaurantIntent } from "./intent-regex.js";
 import { MenuCatalog, subtotalCents } from "./menu-catalog.js";
+import { MenuVectorStore, type MenuKnowledgeStatus, type MenuSearchResult } from "./menu-vector-store.js";
 import { createRestaurantRendererFromEnv, DeterministicRestaurantRenderer } from "./deepseek-renderer.js";
 import { RestaurantOperationsStore } from "./operations-store.js";
 import { containsPaymentCardNumber, detectRestaurantLanguage, formatMoney, includesAny, normalizeText } from "./text.js";
@@ -31,14 +32,16 @@ const POLICY = {
 
 export class HuascaranRestaurantAgent {
   private readonly catalog: MenuCatalog;
+  private readonly menuKnowledge: MenuVectorStore;
   private readonly renderer: RestaurantRenderer;
   private readonly operations = new RestaurantOperationsStore();
   private readonly orders = new Map<string, OrderDraft>();
   private readonly lastOrderBySession = new Map<string, string>();
   private readonly lastDiscussedItemBySession = new Map<string, string>();
 
-  constructor(opts: { catalog?: MenuCatalog; renderer?: RestaurantRenderer } = {}) {
+  constructor(opts: { catalog?: MenuCatalog; menuKnowledge?: MenuVectorStore; renderer?: RestaurantRenderer } = {}) {
     this.catalog = opts.catalog ?? new MenuCatalog();
+    this.menuKnowledge = opts.menuKnowledge ?? new MenuVectorStore(this.catalog);
     this.renderer = opts.renderer ?? createRestaurantRendererFromEnv();
   }
 
@@ -49,7 +52,7 @@ export class HuascaranRestaurantAgent {
     if (intent === "handoff" && this.hasConfirmableOrder(sessionId, request.message)) intent = "order";
     if (intent === "handoff" && this.hasContextOrderFollowup(sessionId, request.message)) intent = "restaurant_context";
     this.operations.recordInbound({ sessionId, language, message: request.message, intent });
-    const decision = this.buildDecision(request.message, language, intent, sessionId);
+    const decision = await this.buildDecision(request.message, language, intent, sessionId);
     const rendered = await this.renderer.render(decision);
     const orderDraft = typeof decision.facts.orderId === "string" ? this.orders.get(decision.facts.orderId) : undefined;
     if (orderDraft) this.operations.recordOrder(orderDraft);
@@ -102,6 +105,10 @@ export class HuascaranRestaurantAgent {
     });
   }
 
+  async getKnowledgeStatus(): Promise<MenuKnowledgeStatus> {
+    return this.menuKnowledge.ensureReady();
+  }
+
   private hasConfirmableOrder(sessionId: string, message: string): boolean {
     return Boolean(this.lastOrderBySession.get(sessionId)) && isOrderConfirmation(normalizeText(message));
   }
@@ -123,7 +130,7 @@ export class HuascaranRestaurantAgent {
     ]);
   }
 
-  private buildDecision(message: string, language: RestaurantLanguage, intent: RestaurantIntent, sessionId: string): RestaurantDecision {
+  private async buildDecision(message: string, language: RestaurantLanguage, intent: RestaurantIntent, sessionId: string): Promise<RestaurantDecision> {
     if (containsPaymentCardNumber(message)) return this.paymentCardBlocked(language);
     if (intent === "menu_recommendation") return this.recommend(message, language);
     if (intent === "order") return this.order(message, language, sessionId);
@@ -392,7 +399,7 @@ export class HuascaranRestaurantAgent {
     return decision(language, "tracking", content, { route: "not_found" });
   }
 
-  private context(message: string, language: RestaurantLanguage, sessionId: string): RestaurantDecision {
+  private async context(message: string, language: RestaurantLanguage, sessionId: string): Promise<RestaurantDecision> {
     const normalized = normalizeText(message);
     const isEnglish = language === "en";
 
@@ -473,11 +480,39 @@ export class HuascaranRestaurantAgent {
       return decision(language, "restaurant_context", content, { route: "popular" });
     }
 
+    const availabilityDecision = await this.answerMenuAvailability(message, language);
+    if (availabilityDecision) return availabilityDecision;
+
     if (includesAny(normalized, ["reservas en linea", "online reservations", "telefono para reservar", "phone for reservations"])) {
       return this.reservation(message, language);
     }
 
     return this.fallback(language);
+  }
+
+  private async answerMenuAvailability(message: string, language: RestaurantLanguage): Promise<RestaurantDecision | null> {
+    const normalized = normalizeText(message);
+    if (!isMenuAvailabilityQuestion(normalized)) return null;
+    const isEnglish = language === "en";
+    const exactItem = this.catalog.findByAlias(normalized);
+    if (exactItem?.status === "available") {
+      const content = isEnglish
+        ? `Yes, ${exactItem.name} is on the current menu. It is ${formatMoney(exactItem.priceCents)}. Would you like to order it or see a pairing?`
+        : `Sí, ${exactItem.name} está en la carta actual. Cuesta ${formatMoney(exactItem.priceCents)}. ¿Desea pedirlo o ver con qué acompañarlo?`;
+      return decision(language, "restaurant_context", content, { route: "menu_available", menuItemIds: [exactItem.id] });
+    }
+
+    const alternatives = selectUsefulAlternatives(message, await this.menuKnowledge.search(message, 4), this.catalog);
+    const requestedDish = requestedDishLabel(message, language);
+    const alternativeText = alternatives.map(({ item }) => `${item.name} (${formatMoney(item.priceCents)})`).join(", ");
+    const content = isEnglish
+      ? `I do not have ${requestedDish} listed on the current menu. The closest real menu options are ${alternativeText}. Would you like one of those instead?`
+      : `No tenemos ${requestedDish} en la carta actual. Lo más cercano en la carta real es ${alternativeText}. ¿Desea una de esas opciones?`;
+    return decision(language, "restaurant_context", content, {
+      route: "off_menu",
+      menuItemIds: alternatives.map(({ item }) => item.id),
+      qdrantConfigured: (await this.menuKnowledge.ensureReady()).configured,
+    });
   }
 
   private fallback(language: RestaurantLanguage): RestaurantDecision {
@@ -600,6 +635,43 @@ function isGreetingOnly(normalizedMessage: string): boolean {
   if (sanitized.length > 32) return false;
 
   return /^(hola|hola gracias|buenas|buen dia|buenos dias|buenas tardes|buenas noches|hello|hello there|hi|hi there|hey|good morning|good afternoon|good evening)$/u.test(sanitized);
+}
+
+function isMenuAvailabilityQuestion(normalizedMessage: string): boolean {
+  if (includesAny(normalizedMessage, ["pasta", "carbonara", "carbonada", "spaghetti", "fettuccine", "tallarin", "tallarines"])) return true;
+  return /(?:^|\s)(tienes|tienen|hay|venden|sirven|do you have|do you serve)\s+/u.test(normalizedMessage);
+}
+
+function requestedDishLabel(message: string, language: RestaurantLanguage): string {
+  const normalized = normalizeText(message)
+    .replace(/^(quiero|quisiera|busco|tienes|tienen|hay|venden|sirven|i want|i would like|do you have|do you serve)\s+/u, "")
+    .replace(/\b(ustedes|you|aqui|there|en carta|en el menu|on the menu)\b/gu, "")
+    .replace(/[.?¿¡!]+/gu, "")
+    .replace(/\s+/gu, " ")
+    .trim();
+  if (!normalized) return language === "en" ? "that dish" : "ese plato";
+  return normalized;
+}
+
+function selectUsefulAlternatives(message: string, results: MenuSearchResult[], catalog: MenuCatalog): MenuSearchResult[] {
+  if (includesAny(normalizeText(message), ["pasta", "carbonara", "carbonada", "spaghetti", "fettuccine"])) {
+    const pastaAlternatives = ["tallarin saltado de carne", "tallarin verde con carne", "tallarin saltado de pollo"]
+      .map((alias): MenuSearchResult | null => {
+        const item = catalog.findByAlias(alias);
+        return item ? { item, score: 1, source: "local" } : null;
+      })
+      .filter((result): result is MenuSearchResult => result !== null);
+    if (pastaAlternatives.length > 0) return pastaAlternatives;
+  }
+  const preferred = results.filter(({ item }) => /tallarin|lomo|seco|churrasco|ceviche/iu.test(normalizeText(item.name)));
+  const selected = preferred.length > 0 ? preferred : results;
+  if (selected.length > 0) return selected.slice(0, 3);
+  return ["tallarin saltado", "lomo saltado", "seco de carne"]
+    .map((alias): MenuSearchResult | null => {
+      const item = catalog.findByAlias(alias);
+      return item ? { item, score: 0, source: "local" } : null;
+    })
+    .filter((result): result is MenuSearchResult => result !== null);
 }
 
 function isFulfillmentSelection(normalizedMessage: string): boolean {

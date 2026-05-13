@@ -9,6 +9,7 @@ Aplicacion web y backend Fastify para el chat widget operativo de Huascaran Rest
 - Menu real incluido en `data/huascaran-menu.json` desde NocoDB `Huascarán / Platos` con 103 registros.
 - Panel operativo en vivo: leads, pedidos y mensajes creados por el widget.
 - DeepSeek opcional en produccion con fallback deterministico.
+- Qdrant interno en Coolify para indexar la carta real y resolver consultas de platos disponibles/no disponibles sin inventar items.
 
 ## Deploy
 
@@ -30,6 +31,8 @@ ADMIN_PASSWORD=<password-admin>
 HUASCARAN_USE_DEEPSEEK=1
 DEEPSEEK_API_KEY=
 DEEPSEEK_MODEL=deepseek-v4-flash
+QDRANT_URL=http://qdrant:6333
+QDRANT_COLLECTION=huascaran_menu
 ```
 
 Endpoints principales:
